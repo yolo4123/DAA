@@ -1,0 +1,35 @@
+#N-queens
+def printsoln(board):
+    for row in board:
+        print(''.join(str(x) for x in row))
+    print()
+def issafe(board,row,col):
+    for i in range(col):
+        if board[row][i]==1:
+            return False
+    for i,j in zip (range(row,-1,-1),range(col,-1,-1)):
+        if board[i][j]==1:
+            return False
+    for i,j in zip (range(row,len(board)),range(col,-1,-1)):
+        if board[i][j]==1:
+            return False
+    return True
+def solve(board,col):
+    if col>=len(board):
+        return True
+    for i in range (len(board)):
+        if issafe(board,i,col):
+            board[i][col]=1
+            if solve(board,col+1):
+                return True
+            board[i][col]=0
+    return False
+def solveNQ(N):
+    board=[[0]*N for _ in range (N)]
+    if not solve(board,0):
+        print("Solution does not exist")
+        return False
+    printsoln(board)
+    return True
+N=int(input("enter the value of N in N-queen:"))
+solveNQ(N)
